@@ -41,17 +41,16 @@ const winLose = document.querySelector("#win-lose")
 const currentPlay = document.querySelector("#current-play")
 const worldRecord = document.querySelector("#world-record")
 const restartButton = document.querySelector("#restart")
-const wordsToHide = 3
 
 
-
-
-
+const wordsToHide = 3; // Change number of words to hide in the grid here
 let highlightColor;
 let userSelected;
 let win = false;
 let lose = false;
-let timeLimit = 120;
+const time = 120; // Change the time limit for the game here
+let timeLimit = time
+let timeToFindWords  = []// The time taken to find each hidden word
 
 function startNewGame(mode){
 
@@ -68,8 +67,9 @@ function startNewGame(mode){
    
     win = false;
     lose = false;
-    timeLimit = 120;
+    timeLimit = time;
     overlay.style.display = "none"
+    timeToFindWords = []
 
     startTimer(mode);
     setUpGame();
@@ -77,7 +77,7 @@ function startNewGame(mode){
 }
 
 
-restartButton.addEventListener("click",() => {startNewGame("water")})
+restartButton.addEventListener("click",() => {startNewGame("restart")})
 newGame.addEventListener("click",() => {startNewGame()})
 
   function getWords(){
@@ -117,7 +117,6 @@ function startTimer(mode){
   const interval = setInterval(() =>{
 if(mode){
     clearInterval(interval)
-    console.log("this triggered")
   }
   if(timeLimit === 0 || win || lose){
     
@@ -131,12 +130,12 @@ if(mode){
 
  resolve(addDoc(collection(db, "games"), {
       win,
-      time: 120 - timeLimit
+      finalTime: time - timeLimit,
+      timeToFindWords
     }))
   })
 
   docRef.then((value) =>{
-    console.log(value)
   })
 
 
@@ -148,7 +147,6 @@ if(mode){
 
   timer.innerText = `${Math.floor(timeLimit / 60)}:${timeLimit % 60 < 10 ? "0" + `${timeLimit % 60}` : `${timeLimit % 60}`}`
   timeLimit--;
-  console.log("this is working")
 }, 1000)  
 
 }
@@ -276,14 +274,12 @@ const handleMouseOver = (e) => {
 
     
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY == secondSelectionY && currentSelectionX == previousSelectionX + 1 && currentSelectionY == previousSelectionY ){
-      console.log("you moved forward")
        userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
       }
       
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY - 1 == secondSelectionY && currentSelectionX - 1 == previousSelectionX && currentSelectionY + 1 == previousSelectionY){
-      console.log("you moved forward and up")
        userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
@@ -292,20 +288,17 @@ const handleMouseOver = (e) => {
       
     
     if(firstSelectionX - 1 == secondSelectionX && firstSelectionY == secondSelectionY  && currentSelectionX == previousSelectionX - 1 && currentSelectionY == previousSelectionY){
-      console.log("you moved backward")
       userSelected = [...userSelected, e.target]
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
     }
 
     if(firstSelectionX - 1 == secondSelectionX && firstSelectionY + 1 == secondSelectionY && currentSelectionX + 1 == previousSelectionX && currentSelectionY - 1 == previousSelectionY){
-      console.log("you moved backward and down")
        userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
       }
     if(firstSelectionX  == secondSelectionX + 1 && firstSelectionY - 1 == secondSelectionY && currentSelectionX + 1 == previousSelectionX && currentSelectionY + 1 == previousSelectionY){
-      console.log("you moved backward and up")
        userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
@@ -314,14 +307,12 @@ const handleMouseOver = (e) => {
 
 
     if(firstSelectionY + 1 == secondSelectionY && firstSelectionX == secondSelectionX && currentSelectionY == previousSelectionY + 1 && currentSelectionX == previousSelectionX){
-      console.log("you moved down")
       userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
     }
 
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY + 1 == secondSelectionY && currentSelectionX - 1 == previousSelectionX && currentSelectionY - 1 == previousSelectionY){
-      console.log("you moved forward and down")
        userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
@@ -329,7 +320,6 @@ const handleMouseOver = (e) => {
 
 
     if(firstSelectionY - 1 == secondSelectionY && firstSelectionX == secondSelectionX && currentSelectionY == previousSelectionY - 1 && currentSelectionX == previousSelectionX ){
-      console.log("you moved up")
       userSelected = [...userSelected, e.target];
        e.target.style.backgroundColor = highlightColor;
        e.target.style.color = "white";
@@ -343,7 +333,6 @@ const handleMouseOver = (e) => {
   let userWord = "";
   for (let i = 0; i < userSelected.length; i++) {
     userWord += userSelected[i].innerText.toLowerCase();
-    console.log('user word is here', userWord)
   }
   selectedLetters.innerText = userWord;
   
@@ -377,7 +366,6 @@ console.dir(element)
     userSelected = [...userSelected, element];
     element.style.backgroundColor = highlightColor;
     element.style.color = "white";
-    console.log(userSelected)
   }
   
   else{
@@ -393,14 +381,12 @@ console.dir(element)
   
     
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY == secondSelectionY && currentSelectionX == previousSelectionX + 1 && currentSelectionY == previousSelectionY ){
-      console.log("you moved forward")
        userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
       }
       
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY - 1 == secondSelectionY && currentSelectionX - 1 == previousSelectionX && currentSelectionY + 1 == previousSelectionY){
-      console.log("you moved forward and up")
        userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
@@ -409,20 +395,17 @@ console.dir(element)
       
     
     if(firstSelectionX - 1 == secondSelectionX && firstSelectionY == secondSelectionY  && currentSelectionX == previousSelectionX - 1 && currentSelectionY == previousSelectionY){
-      console.log("you moved backward")
       userSelected = [...userSelected, element]
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
     }
 
     if(firstSelectionX - 1 == secondSelectionX && firstSelectionY + 1 == secondSelectionY && currentSelectionX + 1 == previousSelectionX && currentSelectionY - 1 == previousSelectionY){
-      console.log("you moved backward and down")
        userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
       }
     if(firstSelectionX  == secondSelectionX + 1 && firstSelectionY - 1 == secondSelectionY && currentSelectionX + 1 == previousSelectionX && currentSelectionY + 1 == previousSelectionY){
-      console.log("you moved backward and up")
        userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
@@ -431,14 +414,12 @@ console.dir(element)
 
 
     if(firstSelectionY + 1 == secondSelectionY && firstSelectionX == secondSelectionX && currentSelectionY == previousSelectionY + 1 && currentSelectionX == previousSelectionX){
-      console.log("you moved down")
       userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
     }
 
     if(firstSelectionX + 1 == secondSelectionX && firstSelectionY + 1 == secondSelectionY && currentSelectionX - 1 == previousSelectionX && currentSelectionY - 1 == previousSelectionY){
-      console.log("you moved forward and down")
        userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
@@ -446,7 +427,6 @@ console.dir(element)
 
 
     if(firstSelectionY - 1 == secondSelectionY && firstSelectionX == secondSelectionX && currentSelectionY == previousSelectionY - 1 && currentSelectionX == previousSelectionX ){
-      console.log("you moved up")
       userSelected = [...userSelected, element];
        element.style.backgroundColor = highlightColor;
        element.style.color = "white";
@@ -514,10 +494,22 @@ console.dir(element)
          item.classList.add("correct")
        });
 
+       if(timeToFindWords.length >= 1){
+        
+        let final = timeToFindWords.reduce((prev, item) => {
+          return prev + item
+        } , 0)
+
+        timeToFindWords.push(time - final - timeLimit)
+       }
+       else{
+        timeToFindWords.push(time - timeLimit)
+       }
+
+
 
     
        userSelected = [];
-       console.log("You Got It!!!!");
        let highlightedWord 
        
        foundWords.childNodes.forEach(child =>{
@@ -559,7 +551,6 @@ console.dir(element)
          
        });
        userSelected = [];
-       console.log("not there");
       
      }
     };
