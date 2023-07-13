@@ -48,7 +48,7 @@ let highlightColor;
 let userSelected;
 let win = false;
 let lose = false;
-const time = 20; // Change the time limit for the game here
+const time = 12; // Change the time limit for the game here
 let timeLimit = time
 let timeToFindWords  = []// The time taken to find each hidden word
 
