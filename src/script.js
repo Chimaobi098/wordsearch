@@ -39,6 +39,7 @@ const restartButton = document.querySelector("#restart");
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const minWordLength = 4;
 const maxWordLength = 5;
+const enabledWordLangages = ["english"]; // check words.js to know what languages are available
 let highlightColor;
 let userSelected;
 let win = false;
@@ -76,11 +77,12 @@ newGame.addEventListener("click", () => {
 function getWords() {
   // Removing words longer than seven letters from the dictionary
   let language_keys = [];
-  let languages = Object.keys(dictionary);
 
   for (let i = 0; i < wordsToHide; i++) {
-    let currentRandLanguageIndex = Math.floor(Math.random() * languages.length);
-    language_keys.push(languages[currentRandLanguageIndex]);
+    let currentRandLanguageIndex = Math.floor(
+      Math.random() * enabledWordLangages.length
+    );
+    language_keys.push(enabledWordLangages[currentRandLanguageIndex]);
   }
   console.log(language_keys);
 
