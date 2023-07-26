@@ -25249,6 +25249,7 @@ const wordsToHide = 3; // Change number of words to hide in the grid here
 const minWordLength = 4;
 const maxWordLength = 5;
 const enabledWordLangages = ["english"]; // check words.js to know what languages are available
+const mustInclude = ["spanish", "french", "english"]; // will only work if words to hide == mustIncludelength. It will override enabled word languages variable if defined
 let highlightColor;
 let userSelected;
 let win = false;
@@ -25287,12 +25288,17 @@ function getWords() {
   // Removing words longer than seven letters from the dictionary
   let language_keys = [];
 
-  for (let i = 0; i < wordsToHide; i++) {
-    let currentRandLanguageIndex = Math.floor(
-      Math.random() * enabledWordLangages.length
-    );
-    language_keys.push(enabledWordLangages[currentRandLanguageIndex]);
+  if (mustInclude && mustInclude.length == wordsToHide) {
+    language_keys = mustInclude; // if words that must be included are there
+  } else {
+    for (let i = 0; i < wordsToHide; i++) {
+      let currentRandLanguageIndex = Math.floor(
+        Math.random() * enabledWordLangages.length
+      );
+      language_keys.push(enabledWordLangages[currentRandLanguageIndex]);
+    }
   }
+
   console.log(language_keys);
 
   // Selecting words at random from the dictionary to input into the grid
