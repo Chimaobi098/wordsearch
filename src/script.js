@@ -1,13 +1,20 @@
 import { dictionary } from "./words.js";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getDoc, getFirestore } from "firebase/firestore";
 import {
   collection,
   addDoc,
   query,
-  orderBy,
+  orderBy,setDoc,
   limit,
-  getDocs,
+  doc,
 } from "firebase/firestore";
 import "./styles/style.css";
 
@@ -23,6 +30,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 //Select DOM elements
 const gridContainer = document.querySelector("#grid-container");
@@ -35,6 +43,8 @@ const winLose = document.querySelector("#win-lose");
 const currentPlay = document.querySelector("#current-play");
 const worldRecord = document.querySelector("#world-record");
 const restartButton = document.querySelector("#restart");
+const signInButton = document.getElementById("signInBtn");
+// const signOutButton = document.getElementById("signOutBtn");
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const minWordLength = 4;
@@ -48,6 +58,23 @@ let lose = false;
 const time = 12; // Change the time limit for the game here
 let timeLimit = time;
 let timeToFindWords = []; // The time taken to find each hidden word
+
+// AUTHENTICATION
+
+const provider = new GoogleAuthProvider();
+
+signInButton.onclick = () =>
+  signInWithPopup(auth, provider).then((res) => console.log(res));
+// signOutButton.onclick = () => signOut(auth);
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    startTimer();
+    setUpGame();
+  } else {
+    signInButton.hidden = true;
+  }
+});
 
 function startNewGame(mode) {
   wordDictionary = getWords();
@@ -130,17 +157,45 @@ function startTimer(mode) {
       overlay.style.display = "block";
       clearInterval(interval);
 
-      const docRef = new Promise((resolve, reject) => {
-        resolve(
-          addDoc(collection(db, "games"), {
+      
+
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const gameRef = collection(db, "test");
+          const docRef = doc(gameRef, `${user.uid}`);
+          const docSnap = await getDoc(docRef);
+
+         if (docSnap.exists()) {       
+      await setDoc(doc(gameRef, `${user.uid}`), {
+        gamesPlayed: docSnap.data().gamesPlayed + 1,
+        email: user.email,
+        sessions: [
+          ...docSnap.data().sessions,
+          {
             win,
             finalTime: time - timeLimit,
             timeToFindWords,
-          })
-        );
+          },
+        ],
+        displayName: user.displayName,
       });
-
-      docRef.then((value) => {});
+    } else {
+      setDoc(doc(gameRef, `${user.uid}`), {
+        gamesPlayed: 1,
+        email: user.email,
+        sessions: [
+         {
+            win,
+            finalTime: time - timeLimit,
+            timeToFindWords,
+          }
+        ],
+        displayName: auth.currentUser.displayName,
+      });
+    }
+  }
+        
+      });
 
       winLose.innerText = win ? "You Win!!! 🎉" : "You Lose 😢";
       currentPlay.innerText = `Current Time : ${120 - timeLimit}`;
@@ -154,8 +209,6 @@ function startTimer(mode) {
     timeLimit--;
   }, 1000);
 }
-
-startTimer();
 
 // setup new game
 
@@ -226,8 +279,6 @@ function setUpGame() {
     item.addEventListener("touchend", stopInteraction);
   });
 }
-
-setUpGame();
 
 // To Handle Interactions
 
