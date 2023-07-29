@@ -35334,8 +35334,9 @@ auth.onAuthStateChanged((user) => {
   if (user) {
     startTimer();
     setUpGame();
-  } else {
     signInButton.hidden = true;
+  } else {
+    signInButton.hidden = false;
   }
 });
 
@@ -35420,44 +35421,41 @@ function startTimer(mode) {
       overlay.style.display = "block";
       clearInterval(interval);
 
-      
-
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           const gameRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "test");
           const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`);
           const docSnap = await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.getDoc)(docRef);
 
-         if (docSnap.exists()) {       
-      await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`), {
-        gamesPlayed: docSnap.data().gamesPlayed + 1,
-        email: user.email,
-        sessions: [
-          ...docSnap.data().sessions,
-          {
-            win,
-            finalTime: time - timeLimit,
-            timeToFindWords,
-          },
-        ],
-        displayName: user.displayName,
-      });
-    } else {
-      (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`), {
-        gamesPlayed: 1,
-        email: user.email,
-        sessions: [
-         {
-            win,
-            finalTime: time - timeLimit,
-            timeToFindWords,
+          if (docSnap.exists()) {
+            await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`), {
+              gamesPlayed: docSnap.data().gamesPlayed + 1,
+              email: user.email,
+              sessions: [
+                ...docSnap.data().sessions,
+                {
+                  win,
+                  finalTime: time - timeLimit,
+                  timeToFindWords,
+                },
+              ],
+              displayName: user.displayName,
+            });
+          } else {
+            (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.setDoc)((0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`), {
+              gamesPlayed: 1,
+              email: user.email,
+              sessions: [
+                {
+                  win,
+                  finalTime: time - timeLimit,
+                  timeToFindWords,
+                },
+              ],
+              displayName: auth.currentUser.displayName,
+            });
           }
-        ],
-        displayName: auth.currentUser.displayName,
-      });
-    }
-  }
-        
+        }
       });
 
       winLose.innerText = win ? "You Win!!! 🎉" : "You Lose 😢";

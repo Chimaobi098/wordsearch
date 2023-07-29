@@ -12,7 +12,8 @@ import {
   collection,
   addDoc,
   query,
-  orderBy,setDoc,
+  orderBy,
+  setDoc,
   limit,
   doc,
 } from "firebase/firestore";
@@ -71,8 +72,9 @@ auth.onAuthStateChanged((user) => {
   if (user) {
     startTimer();
     setUpGame();
-  } else {
     signInButton.hidden = true;
+  } else {
+    signInButton.hidden = false;
   }
 });
 
@@ -157,44 +159,41 @@ function startTimer(mode) {
       overlay.style.display = "block";
       clearInterval(interval);
 
-      
-
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           const gameRef = collection(db, "test");
           const docRef = doc(gameRef, `${user.uid}`);
           const docSnap = await getDoc(docRef);
 
-         if (docSnap.exists()) {       
-      await setDoc(doc(gameRef, `${user.uid}`), {
-        gamesPlayed: docSnap.data().gamesPlayed + 1,
-        email: user.email,
-        sessions: [
-          ...docSnap.data().sessions,
-          {
-            win,
-            finalTime: time - timeLimit,
-            timeToFindWords,
-          },
-        ],
-        displayName: user.displayName,
-      });
-    } else {
-      setDoc(doc(gameRef, `${user.uid}`), {
-        gamesPlayed: 1,
-        email: user.email,
-        sessions: [
-         {
-            win,
-            finalTime: time - timeLimit,
-            timeToFindWords,
+          if (docSnap.exists()) {
+            await setDoc(doc(gameRef, `${user.uid}`), {
+              gamesPlayed: docSnap.data().gamesPlayed + 1,
+              email: user.email,
+              sessions: [
+                ...docSnap.data().sessions,
+                {
+                  win,
+                  finalTime: time - timeLimit,
+                  timeToFindWords,
+                },
+              ],
+              displayName: user.displayName,
+            });
+          } else {
+            setDoc(doc(gameRef, `${user.uid}`), {
+              gamesPlayed: 1,
+              email: user.email,
+              sessions: [
+                {
+                  win,
+                  finalTime: time - timeLimit,
+                  timeToFindWords,
+                },
+              ],
+              displayName: auth.currentUser.displayName,
+            });
           }
-        ],
-        displayName: auth.currentUser.displayName,
-      });
-    }
-  }
-        
+        }
       });
 
       winLose.innerText = win ? "You Win!!! 🎉" : "You Lose 😢";
