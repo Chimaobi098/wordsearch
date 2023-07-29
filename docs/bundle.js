@@ -35332,10 +35332,12 @@ signInButton.onclick = () =>
 
 auth.onAuthStateChanged((user) => {
   if (user) {
+    console.log("this is meeeeeeeeeee");
     startTimer();
     setUpGame();
     signInButton.hidden = true;
   } else {
+    console.log("this is me");
     signInButton.hidden = false;
   }
 });
