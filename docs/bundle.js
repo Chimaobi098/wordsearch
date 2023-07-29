@@ -35329,8 +35329,9 @@ const provider = new firebase_auth__WEBPACK_IMPORTED_MODULE_1__.GoogleAuthProvid
 signInButton.onclick = () =>
   (0,firebase_auth__WEBPACK_IMPORTED_MODULE_1__.signInWithPopup)(auth, provider).then((res) => console.log(res));
 // signOutButton.onclick = () => signOut(auth);
-
+console.log("I changed");
 auth.onAuthStateChanged((user) => {
+  console.log("im still me!!!");
   if (user) {
     console.log("this is meeeeeeeeeee");
     startTimer();

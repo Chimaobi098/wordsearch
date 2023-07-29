@@ -67,8 +67,9 @@ const provider = new GoogleAuthProvider();
 signInButton.onclick = () =>
   signInWithPopup(auth, provider).then((res) => console.log(res));
 // signOutButton.onclick = () => signOut(auth);
-
+console.log("I changed");
 auth.onAuthStateChanged((user) => {
+  console.log("im still me!!!");
   if (user) {
     console.log("this is meeeeeeeeeee");
     startTimer();
