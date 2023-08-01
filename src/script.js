@@ -18,6 +18,7 @@ import {
   doc,
 } from "firebase/firestore";
 import "./styles/style.css";
+import moment from "moment/moment.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDow6irU4JBsVVK0o2GMEB-hWsPRODIBqI",
@@ -48,6 +49,8 @@ const signInButton = document.getElementById("signInBtn");
 // const signOutButton = document.getElementById("signOutBtn");
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
+const breakTime = 5; // in minutes;
+const noOfAttemptsForBreak = 5; // add +1 to whatever number you want
 const minWordLength = 4;
 const maxWordLength = 5;
 const enabledWordLangages = ["english"]; // check words.js to know what languages are available
@@ -69,11 +72,14 @@ signInButton.onclick = () =>
 // signOutButton.onclick = () => signOut(auth);
 console.log("I changed");
 auth.onAuthStateChanged((user) => {
-  console.log("im still me!!!");
   if (user) {
-    console.log("this is meeeeeeeeeee");
-    startTimer();
-    setUpGame();
+    restartButton.addEventListener("click", () => {
+      startNewGame(user, "restart");
+    });
+    newGame.addEventListener("click", () => {
+      startNewGame(user);
+    });
+    startNewGame(user);
     signInButton.hidden = true;
   } else {
     console.log("this is me");
@@ -81,7 +87,25 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
-function startNewGame(mode) {
+async function startNewGame(user, mode) {
+  const gameRef = collection(db, "test");
+  const docRef = doc(gameRef, `${user.uid}`);
+  const docSnap = await getDoc(docRef);
+  console.log(
+    moment
+      .duration(moment().diff(moment(docSnap.data().lastBreakTime)))
+      .asMinutes(),
+    "this is puppy power"
+  );
+  console.log("this was run by me that is whats going on");
+
+  if (
+    docSnap.data() &&
+    moment
+      .duration(moment().diff(moment(docSnap.data().lastBreakTime)))
+      .asMinutes() <= breakTime
+  )
+    return;
   wordDictionary = getWords();
   while (foundWords.hasChildNodes()) {
     foundWords.removeChild(foundWords.firstChild);
@@ -99,13 +123,6 @@ function startNewGame(mode) {
   startTimer(mode);
   setUpGame();
 }
-
-restartButton.addEventListener("click", () => {
-  startNewGame("restart");
-});
-newGame.addEventListener("click", () => {
-  startNewGame();
-});
 
 function getWords() {
   // Removing words longer than seven letters from the dictionary
@@ -172,6 +189,11 @@ function startTimer(mode) {
             await setDoc(doc(gameRef, `${user.uid}`), {
               gamesPlayed: docSnap.data().gamesPlayed + 1,
               email: user.email,
+              lastBreakTime:
+                docSnap.data().sessions.length % noOfAttemptsForBreak ==
+                noOfAttemptsForBreak - 1
+                  ? moment().utc().format()
+                  : docSnap.data().lastBreakTime,
               sessions: [
                 ...docSnap.data().sessions,
                 {
@@ -186,6 +208,7 @@ function startTimer(mode) {
             setDoc(doc(gameRef, `${user.uid}`), {
               gamesPlayed: 1,
               email: user.email,
+              lastBreakTime: moment().subtract(1, "day").utc().format(),
               sessions: [
                 {
                   win,
