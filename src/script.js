@@ -50,9 +50,9 @@ const signInButton = document.getElementById("signInBtn");
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const breakTime = 5; // in minutes;
-const noOfAttemptsForBreak = 16; // add +1 to whatever number you want
+const noOfAttemptsForBreak = 5; // add +1 to whatever number you want
 const minWordLength = 4;
-const maxWordLength = 4;
+const maxWordLength = 5;
 const enabledWordLangages = ["english"]; // check words.js to know what languages are available
 const mustInclude = ["spanish", "french", "english"]; // will only work if words to hide == mustIncludelength. It will override enabled word languages variable if defined
 let highlightColor;
@@ -91,13 +91,6 @@ async function startNewGame(user, mode) {
   const gameRef = collection(db, "test");
   const docRef = doc(gameRef, `${user.uid}`);
   const docSnap = await getDoc(docRef);
-  console.log(
-    moment
-      .duration(moment().diff(moment(docSnap.data().lastBreakTime)))
-      .asMinutes(),
-    "this is puppy power"
-  );
-  console.log("this was run by me that is whats going on");
 
   if (
     docSnap.data() &&

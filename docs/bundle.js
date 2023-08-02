@@ -56393,9 +56393,9 @@ const signInButton = document.getElementById("signInBtn");
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const breakTime = 5; // in minutes;
-const noOfAttemptsForBreak = 16; // add +1 to whatever number you want
+const noOfAttemptsForBreak = 5; // add +1 to whatever number you want
 const minWordLength = 4;
-const maxWordLength = 4;
+const maxWordLength = 5;
 const enabledWordLangages = ["english"]; // check words.js to know what languages are available
 const mustInclude = ["spanish", "french", "english"]; // will only work if words to hide == mustIncludelength. It will override enabled word languages variable if defined
 let highlightColor;
@@ -56434,12 +56434,6 @@ async function startNewGame(user, mode) {
   const gameRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "test");
   const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`);
   const docSnap = await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.getDoc)(docRef);
-  console.log(
-    moment_moment_js__WEBPACK_IMPORTED_MODULE_5___default().duration(moment_moment_js__WEBPACK_IMPORTED_MODULE_5___default()().diff(moment_moment_js__WEBPACK_IMPORTED_MODULE_5___default()(docSnap.data().lastBreakTime)))
-      .asMinutes(),
-    "this is puppy power"
-  );
-  console.log("this was run by me that is whats going on");
 
   if (
     docSnap.data() &&
