@@ -188,11 +188,11 @@ body {
 
 
   #timer{
-   
     border-radius: 2px;
     position: fixed;
     top: 0;
     right: 0;
+    font-size: 1.9rem;
   }
 
 

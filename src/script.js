@@ -34,6 +34,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+
+
+
 //Select DOM elements
 const gridContainer = document.querySelector("#grid-container");
 const selectedLetters = document.querySelector("#selected-letters");
@@ -47,6 +50,11 @@ const worldRecord = document.querySelector("#world-record");
 const restartButton = document.querySelector("#restart");
 const signInButton = document.getElementById("signInBtn");
 // const signOutButton = document.getElementById("signOutBtn");
+
+
+// const currentURL =  window.location.href;
+// const url = new URL(currentURL);
+// let numOfAttempts = url.searchParams.get('numberofAttempts') || 0;
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const breakTime = 5; // in minutes;
@@ -75,6 +83,7 @@ auth.onAuthStateChanged((user) => {
   if (user) {
     restartButton.addEventListener("click", () => {
       startNewGame(user, "restart");
+      
     });
     newGame.addEventListener("click", () => {
       startNewGame(user);
@@ -91,6 +100,8 @@ async function startNewGame(user, mode) {
   const gameRef = collection(db, "test");
   const docRef = doc(gameRef, `${user.uid}`);
   const docSnap = await getDoc(docRef);
+
+  
 
   if (
     docSnap.data() &&
@@ -112,9 +123,11 @@ async function startNewGame(user, mode) {
   timeLimit = time;
   overlay.style.display = "none";
   timeToFindWords = [];
+  
 
   startTimer(mode);
   setUpGame();
+
 }
 
 function getWords() {
@@ -215,9 +228,15 @@ function startTimer(mode) {
         }
       });
 
-      winLose.innerText = win ? "You Win!!! 🎉" : "You Lose 😢";
+     
+      
+     
+       
+
+      winLose.innerText = win ? "You Win!!! 🎉" : `You Lose 😢`;
       currentPlay.innerText = `Current Time : ${120 - timeLimit}`;
       worldRecord.innerText = `World Record 🥇: `;
+             
       return;
     }
 

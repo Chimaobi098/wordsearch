@@ -3,7 +3,8 @@
   "main": "script.js",
   "dependencies": {
     "firebase": "^9.8.2",
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.12.1",
