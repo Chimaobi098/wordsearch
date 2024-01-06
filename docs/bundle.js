@@ -35079,7 +35079,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n  --orange: rgb(240, 120, 22);\r\n  --white: rgb(255, 255, 255);\r\n  --black: rgb(0, 0, 0);\r\n  --lineWidth: 0%;\r\n  --lineColor: none;\r\n  touch-action: none;\r\n  \r\n}\r\n\r\nbody {\r\n  font-family: \"Poppins\", sans-serif;\r\n  font-weight: 600;\r\n  box-sizing: border-box;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  height: 100vh;\r\n  user-select: none;\r\n}\r\n\r\n#grid-container {\r\n    \r\n  display: grid;\r\n  gap: 1vmin 3vmin;\r\n  grid-template-columns: repeat(var(--gridColumnSize),7vmin);\r\n  grid-template-rows: repeat(var(--gridRowSize),7vmin);\r\n\r\n  \r\n  /*grid template columns and rows are controlled by js see line 55 and 56 in script.js*/\r\n}\r\n\r\n#game {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-around;\r\n  position: relative;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n  height: 100vh;\r\n}\r\n@media screen and (max-width: 1400px) {\r\n  #game {\r\n    flex-direction: column;\r\n    justify-content: space-around;\r\n  }\r\n\r\n  #selection-wrapper {\r\n    width: 60vw !important;\r\n\r\n  }\r\n  \r\n \r\n}\r\n.grid-items {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  font-size: 3vmin;\r\n  user-select: none;\r\n  transition: all 0.1s ease-in-out;\r\n  border-radius: 50%;\r\n}\r\n\r\n.grid-items:hover {\r\n  color: var(--white);\r\n  background-color: var(--orange);\r\n}\r\n\r\n#found-words {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  margin-bottom: 3vh;\r\n  flex-wrap: wrap;\r\n}\r\n\r\n#found-words span {\r\n\r\n  font-size: 3vmin;\r\n}\r\n\r\n\r\n@media screen and (max-width: 400px) {\r\n\r\n  #found-words span {\r\n    font-size: 4.5vmin;\r\n  }\r\n\r\n  #found-words span::before{\r\n    height: 0.7vmin !important;\r\n  }\r\n\r\n  .grid-items{\r\n    font-size: 3.8vmin !important;\r\n  }\r\n  \r\n}\r\n\r\n#selected-letters {\r\n  font-size: 9vmin;\r\n  text-align: center;\r\n  margin-bottom: 1vh;\r\n  color: var(--orange);\r\n}\r\n\r\n#grid-wrapper {\r\n  display: flex;\r\n}\r\n\r\n#timer {\r\n  position: fixed;\r\n  font-size: 3vmin;\r\n}\r\n\r\n#selection-wrapper {\r\n  width: 26vw;\r\n}\r\n\r\n#found-words span{\r\n  transition: all 0.5s ease-in-out;\r\n  position: relative;\r\n}\r\n\r\n#found-words span::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 50%;\r\n  width: var(--lineWidth);\r\n  height: 0.3vmin;\r\n  background: var(--lineColor);\r\n  transition: all 0.5s ease-in-out;\r\n}\r\n\r\n#overlay{\r\n  background-color: rgba(0, 0, 0, 0.4);\r\n  width: 100vw;\r\n  height: 100vh;\r\n  z-index: 99;\r\n  position: fixed;\r\n  opacity: 0;\r\n  animation: fade-in 1s forwards;\r\n  display: none;  \r\n}\r\n\r\n#card{\r\n  height: 80vmin;\r\n  padding: 2vmin 5vmin;\r\n  width: 53vmin;\r\n  background: white;\r\n  top: 50%;\r\n  left: 50%;\r\n  position: absolute;\r\n  transform: translate(-50%, -50%);\r\n  border-radius: 2vmin;\r\n  text-align: center;\r\n  overflow-y:scroll;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\n#card::-webkit-scrollbar {\r\n  display: none;\r\n}\r\n\r\n\r\n  @media screen and (max-width: 550px){\r\n   #card{\r\n\r\n    height: 114vmin;\r\n    width: 80vmin;\r\n    padding: 5vmin;\r\n   } \r\n\r\n  }\r\n\r\n\r\n@keyframes fade-in {\r\n  from {\r\n      opacity: 0;\r\n      backdrop-filter: blur(0px);\r\n   }\r\n  to {\r\n      opacity: 1;\r\n      backdrop-filter: blur(8px);\r\n    }\r\n  }\r\n\r\n\r\n  #timer{\r\n   \r\n    border-radius: 2px;\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n  }\r\n\r\n\r\n#player-info-container{\r\n  height: 27vmin;\r\n  width: 49vmin;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  font-size: 2vmin;\r\n\r\n  \r\n}\r\n\r\n#current-play,#personal-best,#world-record{\r\n  padding: 4vmin;\r\n  width: inherit;\r\n  border-radius: 1vmin;\r\n  color: white;\r\n}\r\n#current-play{\r\n  background: #152938;\r\n  \r\n}\r\n#personal-best{\r\n  background: #152938;\r\n  \r\n  \r\n}\r\n#world-record{\r\n  background: #DFE7EC;\r\n  color: #304859\r\n  \r\n}\r\n\r\n#new{\r\n  background: orange;\r\n  color: white;\r\n  font-size: 2vmin;\r\n  font-weight: 700;\r\n  width: 17vmin;\r\n  border-radius: 26px;\r\n  border: none;\r\n  padding: 2vmin 3vmin;\r\n}\r\n\r\n@media screen and (max-width: 550px){\r\n  #player-info-container{\r\nheight: 44vmin;\r\nwidth: 60vmin;\r\nfont-size: 3.5vmin;\r\n\r\n\r\n  }\r\n\r\n  #new{\r\n      font-size: 3.5vmin;\r\n      width: 25vmin;\r\n  }\r\n\r\n\r\n}\r\n\r\n\r\n#wrapper h1{\r\n  font-size: 6vmin;\r\n  margin: 0px;\r\n}\r\n\r\n#restart{\r\n  position: fixed;\r\n  top: 1vmin;\r\n  left: 1vmin;\r\n  background: var(--orange);\r\n  color: white;\r\n  font-size: 2vmin;\r\n  font-weight: 700;\r\n  border-radius: 3vmin;\r\n  border: none;\r\n  padding: 1vmin 3vmin;\r\n\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --orange: rgb(240, 120, 22);\n  --white: rgb(255, 255, 255);\n  --black: rgb(0, 0, 0);\n  --lineWidth: 0%;\n  --lineColor: none;\n  touch-action: none;\n  \n}\n\nbody {\n  font-family: \"Poppins\", sans-serif;\n  font-weight: 600;\n  box-sizing: border-box;\n  overflow: hidden;\n  margin: 0;\n  height: 100vh;\n  user-select: none;\n}\n\n#grid-container {\n    \n  display: grid;\n  gap: 1vmin 3vmin;\n  grid-template-columns: repeat(var(--gridColumnSize),7vmin);\n  grid-template-rows: repeat(var(--gridRowSize),7vmin);\n\n  \n  /*grid template columns and rows are controlled by js see line 55 and 56 in script.js*/\n}\n\n#game {\n  display: flex;\n  align-items: center;\n  justify-content: space-around;\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  height: 100vh;\n}\n@media screen and (max-width: 1400px) {\n  #game {\n    flex-direction: column;\n    justify-content: space-around;\n  }\n\n  #selection-wrapper {\n    width: 60vw !important;\n\n  }\n  \n \n}\n.grid-items {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 3vmin;\n  user-select: none;\n  transition: all 0.1s ease-in-out;\n  border-radius: 50%;\n}\n\n.grid-items:hover {\n  color: var(--white);\n  background-color: var(--orange);\n}\n\n#found-words {\n  display: flex;\n  justify-content: space-around;\n  margin-bottom: 3vh;\n  flex-wrap: wrap;\n}\n\n#found-words span {\n\n  font-size: 3vmin;\n}\n\n\n@media screen and (max-width: 400px) {\n\n  #found-words span {\n    font-size: 4.5vmin;\n  }\n\n  #found-words span::before{\n    height: 0.7vmin !important;\n  }\n\n  .grid-items{\n    font-size: 3.8vmin !important;\n  }\n  \n}\n\n#selected-letters {\n  font-size: 9vmin;\n  text-align: center;\n  margin-bottom: 1vh;\n  color: var(--orange);\n}\n\n#grid-wrapper {\n  display: flex;\n}\n\n#timer {\n  position: fixed;\n  font-size: 3vmin;\n}\n\n#selection-wrapper {\n  width: 26vw;\n}\n\n#found-words span{\n  transition: all 0.5s ease-in-out;\n  position: relative;\n}\n\n#found-words span::before {\n  content: '';\n  position: absolute;\n  top: 50%;\n  width: var(--lineWidth);\n  height: 0.3vmin;\n  background: var(--lineColor);\n  transition: all 0.5s ease-in-out;\n}\n\n#overlay{\n  background-color: rgba(0, 0, 0, 0.4);\n  width: 100vw;\n  height: 100vh;\n  z-index: 99;\n  position: fixed;\n  opacity: 0;\n  animation: fade-in 1s forwards;\n  display: none;  \n}\n\n#card{\n  height: 80vmin;\n  padding: 2vmin 5vmin;\n  width: 53vmin;\n  background: white;\n  top: 50%;\n  left: 50%;\n  position: absolute;\n  transform: translate(-50%, -50%);\n  border-radius: 2vmin;\n  text-align: center;\n  overflow-y:scroll;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n}\n\n#card::-webkit-scrollbar {\n  display: none;\n}\n\n\n  @media screen and (max-width: 550px){\n   #card{\n\n    height: 114vmin;\n    width: 80vmin;\n    padding: 5vmin;\n   } \n\n  }\n\n\n@keyframes fade-in {\n  from {\n      opacity: 0;\n      backdrop-filter: blur(0px);\n   }\n  to {\n      opacity: 1;\n      backdrop-filter: blur(8px);\n    }\n  }\n\n\n  #timer{\n    border-radius: 2px;\n    position: fixed;\n    top: 0;\n    right: 0;\n    font-size: 1.9rem;\n  }\n\n\n#player-info-container{\n  height: 27vmin;\n  width: 49vmin;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 2vmin;\n\n  \n}\n\n#current-play,#personal-best,#world-record{\n  padding: 4vmin;\n  width: inherit;\n  border-radius: 1vmin;\n  color: white;\n}\n#current-play{\n  background: #152938;\n  \n}\n#personal-best{\n  background: #152938;\n  \n  \n}\n#world-record{\n  background: #DFE7EC;\n  color: #304859\n  \n}\n\n#new{\n  background: orange;\n  color: white;\n  font-size: 2vmin;\n  font-weight: 700;\n  width: 17vmin;\n  border-radius: 26px;\n  border: none;\n  padding: 2vmin 3vmin;\n}\n\n@media screen and (max-width: 550px){\n  #player-info-container{\nheight: 44vmin;\nwidth: 60vmin;\nfont-size: 3.5vmin;\n\n\n  }\n\n  #new{\n      font-size: 3.5vmin;\n      width: 25vmin;\n  }\n\n\n}\n\n\n#wrapper h1{\n  font-size: 6vmin;\n  margin: 0px;\n}\n\n#restart{\n  position: fixed;\n  top: 1vmin;\n  left: 1vmin;\n  background: var(--orange);\n  color: white;\n  font-size: 2vmin;\n  font-weight: 700;\n  border-radius: 3vmin;\n  border: none;\n  padding: 1vmin 3vmin;\n\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56377,6 +56377,9 @@ const app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_2__.initializeApp)(firebase
 const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.getFirestore)(app);
 const auth = (0,firebase_auth__WEBPACK_IMPORTED_MODULE_1__.getAuth)(app);
 
+
+
+
 //Select DOM elements
 const gridContainer = document.querySelector("#grid-container");
 const selectedLetters = document.querySelector("#selected-letters");
@@ -56390,6 +56393,11 @@ const worldRecord = document.querySelector("#world-record");
 const restartButton = document.querySelector("#restart");
 const signInButton = document.getElementById("signInBtn");
 // const signOutButton = document.getElementById("signOutBtn");
+
+
+// const currentURL =  window.location.href;
+// const url = new URL(currentURL);
+// let numOfAttempts = url.searchParams.get('numberofAttempts') || 0;
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
 const breakTime = 5; // in minutes;
@@ -56418,6 +56426,7 @@ auth.onAuthStateChanged((user) => {
   if (user) {
     restartButton.addEventListener("click", () => {
       startNewGame(user, "restart");
+      
     });
     newGame.addEventListener("click", () => {
       startNewGame(user);
@@ -56434,6 +56443,8 @@ async function startNewGame(user, mode) {
   const gameRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.collection)(db, "test");
   const docRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.doc)(gameRef, `${user.uid}`);
   const docSnap = await (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_3__.getDoc)(docRef);
+
+  
 
   if (
     docSnap.data() &&
@@ -56454,9 +56465,11 @@ async function startNewGame(user, mode) {
   timeLimit = time;
   overlay.style.display = "none";
   timeToFindWords = [];
+  
 
   startTimer(mode);
   setUpGame();
+
 }
 
 function getWords() {
@@ -56557,9 +56570,15 @@ function startTimer(mode) {
         }
       });
 
-      winLose.innerText = win ? "You Win!!! 🎉" : "You Lose 😢";
+     
+      
+     
+       
+
+      winLose.innerText = win ? "You Win!!! 🎉" : `You Lose 😢`;
       currentPlay.innerText = `Current Time : ${120 - timeLimit}`;
       worldRecord.innerText = `World Record 🥇: `;
+             
       return;
     }
 

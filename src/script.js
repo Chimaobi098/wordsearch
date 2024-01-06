@@ -34,9 +34,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-
-
-
 //Select DOM elements
 const gridContainer = document.querySelector("#grid-container");
 const selectedLetters = document.querySelector("#selected-letters");
@@ -51,14 +48,13 @@ const restartButton = document.querySelector("#restart");
 const signInButton = document.getElementById("signInBtn");
 // const signOutButton = document.getElementById("signOutBtn");
 
-
 // const currentURL =  window.location.href;
 // const url = new URL(currentURL);
 // let numOfAttempts = url.searchParams.get('numberofAttempts') || 0;
 
 const wordsToHide = 3; // Change number of words to hide in the grid here
-const breakTime = 5; // in minutes;
-const noOfAttemptsForBreak = 16; // add +1 to whatever number you want
+// const breakTime = 5; // in minutes;
+// const noOfAttemptsForBreak = 16; // add +1 to whatever number you want
 const minWordLength = 4;
 const maxWordLength = 4;
 const enabledWordLangages = ["english"]; // check words.js to know what languages are available
@@ -70,6 +66,7 @@ let lose = false;
 const time = 12; // Change the time limit for the game here
 let timeLimit = time;
 let timeToFindWords = []; // The time taken to find each hidden word
+let wordsFoundInOrderFound = []; // The words a user found in the order found, from left to right
 
 // AUTHENTICATION
 
@@ -83,7 +80,6 @@ auth.onAuthStateChanged((user) => {
   if (user) {
     restartButton.addEventListener("click", () => {
       startNewGame(user, "restart");
-      
     });
     newGame.addEventListener("click", () => {
       startNewGame(user);
@@ -101,15 +97,13 @@ async function startNewGame(user, mode) {
   const docRef = doc(gameRef, `${user.uid}`);
   const docSnap = await getDoc(docRef);
 
-  
-
-  if (
-    docSnap.data() &&
-    moment
-      .duration(moment().diff(moment(docSnap.data().lastBreakTime)))
-      .asMinutes() <= breakTime
-  )
-    return;
+  // if (
+  //   docSnap.data() &&
+  //   moment
+  //     .duration(moment().diff(moment(docSnap.data().lastBreakTime)))
+  //     .asMinutes() <= breakTime
+  // )
+  //   return;
   wordDictionary = getWords();
   while (foundWords.hasChildNodes()) {
     foundWords.removeChild(foundWords.firstChild);
@@ -123,11 +117,10 @@ async function startNewGame(user, mode) {
   timeLimit = time;
   overlay.style.display = "none";
   timeToFindWords = [];
-  
+  wordsFoundInOrderFound = [];
 
   startTimer(mode);
   setUpGame();
-
 }
 
 function getWords() {
@@ -148,7 +141,6 @@ function getWords() {
   console.log(language_keys);
 
   // Selecting words at random from the dictionary to input into the grid
-
   let word = [];
 
   for (let language_key of language_keys) {
@@ -169,13 +161,22 @@ function getWords() {
 
     word.push(potentialWord);
   }
+
   console.log(word);
+  // console.log(word[1]);
+  // wordsFoundInOrder = word;
+  // console.log(wordsFoundInOrder);
+
   return word;
 }
+
+// console.log(word);
 
 let wordDictionary = getWords(); // selected words from dictionary array
 
 function startTimer(mode) {
+  // Lets us know the exact time a user starts their attempt
+  let timeSessionHappened = new Date();
   const interval = setInterval(() => {
     if (mode) {
       clearInterval(interval);
@@ -195,17 +196,20 @@ function startTimer(mode) {
             await setDoc(doc(gameRef, `${user.uid}`), {
               gamesPlayed: docSnap.data().gamesPlayed + 1,
               email: user.email,
-              lastBreakTime:
-                docSnap.data().sessions.length % noOfAttemptsForBreak ==
-                noOfAttemptsForBreak - 1
-                  ? moment().utc().format()
-                  : docSnap.data().lastBreakTime,
+              lastAttempt: timeSessionHappened,
+              // lastBreakTime:
+              //   docSnap.data().sessions.length % noOfAttemptsForBreak ==
+              //   noOfAttemptsForBreak - 1
+              //     ? moment().utc().format()
+              //     : docSnap.data().lastBreakTime,
               sessions: [
                 ...docSnap.data().sessions,
                 {
                   win,
                   finalTime: time - timeLimit,
                   timeToFindWords,
+                  wordsFoundInOrderFound,
+                  timeSessionHappened,
                 },
               ],
               displayName: user.displayName,
@@ -214,12 +218,15 @@ function startTimer(mode) {
             setDoc(doc(gameRef, `${user.uid}`), {
               gamesPlayed: 1,
               email: user.email,
-              lastBreakTime: moment().subtract(1, "day").utc().format(),
+              lastAttempt: timeSessionHappened,
+              // lastBreakTime: moment().subtract(1, "day").utc().format(),
               sessions: [
                 {
                   win,
                   finalTime: time - timeLimit,
                   timeToFindWords,
+                  wordsFoundInOrderFound,
+                  timeSessionHappened,
                 },
               ],
               displayName: auth.currentUser.displayName,
@@ -228,15 +235,10 @@ function startTimer(mode) {
         }
       });
 
-     
-      
-     
-       
-
       winLose.innerText = win ? "You Win!!! 🎉" : `You Lose 😢`;
       currentPlay.innerText = `Current Time : ${120 - timeLimit}`;
       worldRecord.innerText = `World Record 🥇: `;
-             
+
       return;
     }
 
@@ -622,6 +624,9 @@ function checkInput() {
     foundWords.childNodes.forEach((child) => {
       if (child.innerText === userWord) {
         highlightedWord = child;
+        wordsFoundInOrderFound.push(highlightedWord.textContent);
+        // console.log(wordsFoundInOrderFound);
+        // console.log(highlightedWord.textContent);
       }
     });
 
@@ -651,3 +656,5 @@ function checkInput() {
     userSelected = [];
   }
 }
+
+// console.log(wordsFoundInOrder);
