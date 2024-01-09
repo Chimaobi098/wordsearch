@@ -39,7 +39,7 @@ const gridContainer = document.querySelector("#grid-container");
 
 //pushes the grid up a bit
 const gridWrapper = document.querySelector("#grid-wrapper");
-gridWrapper.style.marginBottom = "2rem";
+gridWrapper.style.marginBottom = "5rem";
 
 const selectedLetters = document.querySelector("#selected-letters");
 const foundWords = document.querySelector("#found-words");
