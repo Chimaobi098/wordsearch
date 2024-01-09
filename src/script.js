@@ -36,6 +36,11 @@ const auth = getAuth(app);
 
 //Select DOM elements
 const gridContainer = document.querySelector("#grid-container");
+
+//pushes the grid up a bit
+const gridWrapper = document.querySelector("#grid-wrapper");
+gridWrapper.style.marginBottom = "2rem";
+
 const selectedLetters = document.querySelector("#selected-letters");
 const foundWords = document.querySelector("#found-words");
 const timer = document.querySelector("#timer");
