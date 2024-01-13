@@ -53,6 +53,21 @@ const restartButton = document.querySelector("#restart");
 const signInButton = document.getElementById("signInBtn");
 // const signOutButton = document.getElementById("signOutBtn");
 
+//just created to help psotition play buttons
+const btnContainer = document.querySelector("#btn-container");
+
+//BUTTON LOGIC
+const howToPlayBtn = document.createElement("button");
+howToPlayBtn.textContent = "How to play";
+howToPlayBtn.style.cssText +=
+  'display: flex;width: 90vw; align-items: center;justify-content: center;padding: 8px;background-color: #ffffff;border-radius: 5px; border: 1px solid #000000; width: fit - content; margin - top: -1px; font - family: "Chakra Petch-Regular", Helvetica; font - weight: 400; color: #000000; font-size: 3.5vw; text - align: center; letter - spacing: 0; line-height: normal;box-shadow: 0px 3px 3px #00000024; margin-bottom:1.5rem';
+
+const playBtn = document.createElement("button");
+playBtn.textContent = "Start playing";
+playBtn.style.cssText +=
+  'display: flex;width: 90vw;align-items: center;justify-content: center;padding: 8px;background-color: #000000;border-radius: 5px; border: 1px solid #000000; width: fit - content; margin - top: -1px; font - family: "Chakra Petch-Regular", Helvetica; font - weight: 400; color: #ffffff; font-size: 3.5vw; text - align: center; line-height: normal;box-shadow: 0px 3px 3px #00000024';
+
+//END OF BUTTON LOGIC
 // const currentURL =  window.location.href;
 // const url = new URL(currentURL);
 // let numOfAttempts = url.searchParams.get('numberofAttempts') || 0;
@@ -68,7 +83,7 @@ let highlightColor;
 let userSelected;
 let win = false;
 let lose = false;
-const time = 12; // Change the time limit for the game here
+const time = 15; // Change the time limit for the game here
 let timeLimit = time;
 let timeToFindWords = []; // The time taken to find each hidden word
 let wordsFoundInOrderFound = []; // The words a user found in the order found, from left to right
@@ -79,6 +94,11 @@ const provider = new GoogleAuthProvider();
 
 signInButton.onclick = () =>
   signInWithPopup(auth, provider).then((res) => console.log(res));
+
+btnContainer.appendChild(howToPlayBtn);
+
+btnContainer.appendChild(playBtn);
+
 // signOutButton.onclick = () => signOut(auth);
 console.log("I changed");
 auth.onAuthStateChanged((user) => {
@@ -86,10 +106,14 @@ auth.onAuthStateChanged((user) => {
     restartButton.addEventListener("click", () => {
       startNewGame(user, "restart");
     });
+    playBtn.addEventListener("click", () => {
+      startNewGame(user);
+      btnContainer.style.display = "none";
+    });
     newGame.addEventListener("click", () => {
       startNewGame(user);
     });
-    startNewGame(user);
+    // startNewGame(user);
     signInButton.hidden = true;
   } else {
     console.log("this is me");
