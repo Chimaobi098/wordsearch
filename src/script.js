@@ -289,7 +289,11 @@ function setUpGame() {
   });
 
   //Grid Customization
-  const gridRowSize = 12;
+  // const gridRowSize = 12;
+  // const gridColumnSize = 10;
+
+  // Edited
+  const gridRowSize = 8;
   const gridColumnSize = 10;
 
   var options = {
